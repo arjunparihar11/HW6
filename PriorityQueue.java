@@ -1,7 +1,7 @@
 
 /******************************************************************
  *
- *   YOUR NAME / SECTION NUMBER
+ *   Arjun Parihar Comp 272-002
  *
  *   Note, additional comments provided throughout this source code
  *   is for educational purposes
@@ -152,7 +152,15 @@ class PriorityQueue<E, P> {
     public Node add(E e, P priority) {
 
         // YOUR CODE GOES HERE
-        return null;
+
+        //Create a new Node and add it as the last element in the tree
+        Node newNode = new Node(e, priority, tree.size());
+        //Add the new node to the tree
+        tree.add(newNode);
+        //Restore the heap property by moving the new node
+        pullUp(tree.size() - 1);
+    
+    return newNode;
     }
 
 
@@ -167,8 +175,17 @@ class PriorityQueue<E, P> {
      */
 
     public boolean contains(E e) {
-
         // ADD YOUR CODE HERE
+
+        //Iterate over each node in the tree
+        for (Node node : tree) {
+            //If the node equals the specified element
+            if (node.value.equals(e)) {
+                //Element found in the queue
+                return true;
+            }
+        }
+        //Element not found in the queue
         return false;
     }
 

@@ -1,7 +1,7 @@
 
 /******************************************************************
  *
- *   YOUR NAME / SECTION NUMBER
+ *   Arjun Parihar Comp 272-002
  *
  *   This java file contains the problem solutions for the methods lastBoulder,
  *   showDuplicates, and pair methods. You should utilize the Java Collection
@@ -68,7 +68,26 @@ public class ProblemSolutions {
       //
       // ADD YOUR CODE HERE - DO NOT FORGET TO ADD YOUR NAME / SECTION # ABOVE
       //
-      return -1;
+
+        //Queue to store boulder weights in descending order
+        PriorityQueue<Integer> pq = new PriorityQueue<>(Collections.reverseOrder());
+        //Add all boulders to the priority queue
+        for (int boulder : boulders) {
+            pq.offer(boulder);
+        }
+        //Continue the game while there are at least two boulders to smash
+        while (pq.size() > 1) {
+            //Heaviest boulder
+            int x = pq.poll();
+            //Second heaviest boulder
+            int y = pq.poll();
+            //If the boulders are not of equal weight insert the resulting boulder back
+            if (x != y) {
+                pq.offer(x - y);
+            }
+        }
+        //If no boulders remain, return 0; otherwise, return the last boulder
+        return pq.isEmpty() ? 0 : pq.peek();
   }
 
 
@@ -94,8 +113,18 @@ public class ProblemSolutions {
         //
         //  YOUR CODE GOES HERE
         //
-        return new ArrayList<>();  // Make sure result is sorted in ascending order
-
+        HashMap<String, Integer> countMap = new HashMap<>();
+        for (String s : input) {
+            countMap.put(s, countMap.getOrDefault(s, 0) + 1);
+        }
+        ArrayList<String> duplicates = new ArrayList<>();
+        for (Map.Entry<String, Integer> entry : countMap.entrySet()) {
+            if (entry.getValue() > 1) {
+                duplicates.add(entry.getKey());
+            }
+        }
+        Collections.sort(duplicates);
+        return duplicates;
     }
 
 
@@ -134,6 +163,19 @@ public class ProblemSolutions {
         //
         //  YOUR CODE GOES HERE
         //
-        return new ArrayList<>();  // Make sure returned lists is sorted as indicated above
+        HashSet<Integer> seen = new HashSet<>();
+        HashSet<String> pairs = new HashSet<>();
+        for (int num : input) {
+            int target = k - num;
+            if (seen.contains(target)) {
+                int a = Math.min(num, target);
+                int b = Math.max(num, target);
+                pairs.add("(" + a + ", " + b + ")");
+            }
+            seen.add(num);
+        }
+        ArrayList<String> result = new ArrayList<>(pairs);
+        Collections.sort(result);
+        return result;
     }
 }
